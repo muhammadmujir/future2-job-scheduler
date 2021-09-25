@@ -37,8 +37,7 @@ import androidx.core.app.NotificationCompat;
 public class NotificationJobService extends JobService {
 
     // Notification channel ID.
-    private static final String PRIMARY_CHANNEL_ID =
-            "primary_notification_channel";
+    private static final String PRIMARY_CHANNEL_ID = "primary_notification_channel";
     // Notification manager.
     NotificationManager mNotifyManager;
 
@@ -59,9 +58,12 @@ public class NotificationJobService extends JobService {
 
         // Set up the notification content intent to launch the app when
         // clicked.
-        PendingIntent contentPendingIntent = PendingIntent.getActivity
-                (this, 0, new Intent(this, MainActivity.class),
-                        PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent contentPendingIntent = PendingIntent.getActivity(
+                this,
+                0,
+                new Intent(this, MainActivity.class),
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder
                 (this, PRIMARY_CHANNEL_ID)
@@ -97,26 +99,21 @@ public class NotificationJobService extends JobService {
     public void createNotificationChannel() {
 
         // Create a notification manager object.
-        mNotifyManager =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mNotifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         // Notification channels are only available in OREO and higher.
         // So, add a check on SDK version.
-        if (android.os.Build.VERSION.SDK_INT >=
-                android.os.Build.VERSION_CODES.O) {
-
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             // Create the NotificationChannel with all the parameters.
-            NotificationChannel notificationChannel = new NotificationChannel
-                    (PRIMARY_CHANNEL_ID,
-                            getString(R.string.job_service_notification),
-                            NotificationManager.IMPORTANCE_HIGH);
-
+            NotificationChannel notificationChannel = new NotificationChannel(
+                    PRIMARY_CHANNEL_ID,
+                    getString(R.string.job_service_notification),
+                    NotificationManager.IMPORTANCE_HIGH
+            );
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.RED);
             notificationChannel.enableVibration(true);
-            notificationChannel.setDescription
-                    (getString(R.string.notification_channel_description));
-
+            notificationChannel.setDescription(getString(R.string.notification_channel_description));
             mNotifyManager.createNotificationChannel(notificationChannel);
         }
     }

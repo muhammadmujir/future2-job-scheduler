@@ -105,12 +105,12 @@ public class MainActivity extends AppCompatActivity {
                 selectedNetworkOption = JobInfo.NETWORK_TYPE_UNMETERED;
                 break;
             case R.id.meteredNetwork:
-                selectedNetworkOption = JobInfo.NETWORK_TYPE_METERED;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    selectedNetworkOption = JobInfo.NETWORK_TYPE_METERED;
                 break;
         }
 
-        ComponentName serviceName = new ComponentName(getPackageName(),
-                NotificationJobService.class.getName());
+        ComponentName serviceName = new ComponentName(getPackageName(), NotificationJobService.class.getName());
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, serviceName)
                 .setRequiredNetworkType(selectedNetworkOption)
                 .setRequiresDeviceIdle(mDeviceIdleSwitch.isChecked())
@@ -128,11 +128,9 @@ public class MainActivity extends AppCompatActivity {
         if (constraintSet) {
             JobInfo myJobInfo = builder.build();
             mScheduler.schedule(myJobInfo);
-            Toast.makeText(this, R.string.job_scheduled, Toast.LENGTH_SHORT)
-                    .show();
+            Toast.makeText(this, R.string.job_scheduled, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, R.string.no_constraint_toast,
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.no_constraint_toast, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -144,8 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (mScheduler != null) {
             mScheduler.cancelAll();
-            Toast.makeText(this, R.string.jobs_canceled, Toast.LENGTH_SHORT)
-                    .show();
+            Toast.makeText(this, R.string.jobs_canceled, Toast.LENGTH_SHORT).show();
         }
     }
 
