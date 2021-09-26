@@ -63,7 +63,7 @@ public class NotificationJobService extends JobService {
     public boolean onStopJob(JobParameters jobParameters) {
         if (isJobFinished)
             return false;
-//        Toast.makeText().show();
+        Toast.makeText(this, "Job Canceled", Toast.LENGTH_SHORT).show();
         return true;
     }
 
